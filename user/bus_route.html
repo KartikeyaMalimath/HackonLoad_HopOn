@@ -28,75 +28,58 @@
             <form class="form" method="" action="">
                 <div class="card card-login card-hidden">
                     <div class="card-header card-header-rose text-center">
-                    <h2 class="card-title">Ticketing System</h2>
+                    <h2 class="card-title">Bus route details</h2>
                     </div>
                     <div class="card-body ">
+                        <form class="form-horizontal">
+                            <div class="row">
                     <!-- source added -->
-                    <div class="col-lg-5 col-md-6 col-sm-3">
-                        <select class="selectpicker" data-style="select-with-transition" title="Choose Source" data-size="7">
-                          <option disabled> Multiple Options</option>
-                          <option value="2">Paris </option>
-                          <option value="3">Bucharest</option>
-                          <option value="4">Rome</option>
-                          <option value="5">New York</option>
-                          <option value="6">Miami </option>
-                          <option value="7">Piatra Neamt</option>
-                          <option value="8">Paris </option>
-                          <option value="9">Bucharest</option>
-                          <option value="10">Rome</option>
-                          <option value="11">New York</option>
-                          <option value="12">Miami </option>
-                          <option value="13">Piatra Neamt</option>
-                          <option value="14">Paris </option>
-                          <option value="15">Bucharest</option>
-                          <option value="16">Rome</option>
-                          <option value="17">New York</option>
-                          <option value="18">Miami </option>
-                          <option value="19">Piatra Neamt</option>
-                        </select>
-                      </div>
-                          <!-- end -->
-                          <br>
-                          <!-- destination added -->
-                          <div class="col-lg-5 col-md-6 col-sm-3">
-                            <select class="selectpicker" data-style="select-with-transition" title="Choose Destination" data-size="7">
-                              <option disabled> Multiple Options</option>
-                              <option value="2">Paris </option>
-                              <option value="3">Bucharest</option>
-                              <option value="4">Rome</option>
-                              <option value="5">New York</option>
-                              <option value="6">Miami </option>
-                              <option value="7">Piatra Neamt</option>
-                              <option value="8">Paris </option>
-                              <option value="9">Bucharest</option>
-                              <option value="10">Rome</option>
-                              <option value="11">New York</option>
-                              <option value="12">Miami </option>
-                              <option value="13">Piatra Neamt</option>
-                              <option value="14">Paris </option>
-                              <option value="15">Bucharest</option>
-                              <option value="16">Rome</option>
-                              <option value="17">New York</option>
-                              <option value="18">Miami </option>
-                              <option value="19">Piatra Neamt</option>
-                            </select>
-                          </div>
-                          <!-- end -->
-                          <br>
-                          <!--number input added-->
-                          <div class="row">
-                            <label class="col-sm-2 col-form-label">Number Of People</label>
-                            <div class="col-sm-7">
-                              <div class="form-group">
-                                <input class="form-control" type="number" name="number" number="true" required="true" />
-                              </div>
+                                <div class="col-lg-5 col-md-6 col-sm-3" align="center">
+                                    <label class="col-md-3 col-form-label">Route code</label>
+                                    <select class="selectpicker" data-style="select-with-transition" title="Choose route" data-size="7">
+
+                                    </select>
+                                </div>
                             </div>
-                          </div>
-                           <!--end-->
-                    
+                          <!-- end -->
+                            
+                            <div class="row">
+                          <!-- stop with time added -->
+                                <label class="col-md-3 col-form-label">Bus no</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                          <!-- end -->   
+                            </div>
+                            <div class="row">
+                                    <!-- stop with time added -->
+                                <label class="col-md-3 col-form-label">Stops</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker3'>
+                                            <input type='time' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker3').datetimepicker({
+                                            format: 'LT'
+                                        });
+                                    });
+                                </script>
+                                    <!-- end -->
+                            </div>
+
+                        </form>   
                     </div>
                     <div class="card-footer justify-content-center">
-                    <a href="available.html" class="btn btn-rose btn-link btn-lg">Lets Go !..</a>
+                    <a href="#" class="btn btn-rose btn-link btn-lg">Lets Go !..</a>
                     </div>
                 </div>
             </form>
@@ -426,6 +409,7 @@
       md.initFullCalendar();
     });
   </script>
+  
 </body>
 
 </html>
