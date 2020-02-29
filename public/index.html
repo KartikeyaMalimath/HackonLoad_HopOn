@@ -35,8 +35,9 @@
     <script src="../../HackonLoad_HopOn/public/temp.js"></script>
       <!-- End Navbar -->
       <div class="content">
-        <div class="container-fluid">
-          test
+        <!-- <button onclick="pro('km','km@gmail.com')">test</button> -->
+
+        <div id="mkprofile" class="container-fluid">
         </div>
       </div>
       <script src="../../HackonLoad_HopOn/public/temp_footer.js"></script>
@@ -145,33 +146,46 @@
     </div>
   </div>
   <script src="../js/firebase.js"></script>
-  <script>   
-        {
+  <script>      
+            document.getElementById("mkprofile").innerHTML = "Loading...";  
             firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 var ref = firebase.database().ref("customer").once('value', gotUserData);
                 function gotUserData(snapshot){
+                document.getElementById("mkprofile").innerHTML = "<button id='profile' onclick='pro()' class='btn btn-success'>Complete Profile</button>";
+                // document.getElementById("mkprofile").innerHTML = "<button id='profile' onclick='alert()' class='btn btn-success'>Complete Profile</button>";
+
+                // document.getElementById("profile").addEventListener("Click", );
+
                 snapshot.forEach(userSnapshot => {                
-                if(userSnapshot.val().cemail ===user.email) 
+                if(userSnapshot.val().cemail == user.email) 
                 {
-                    window.location.href = "route.html";
+                    window.location.href = "./route.html";
                     return true;
                 }
-            });
-                var con = firebase.database().ref('customer');
+                
+                });
+                    
+                }
+            } else {
+            // No user is signed in.
+            }
+            });        
+  </script>
+  <script>
+      function pro(usr,mail){
+        firebase.auth().onAuthStateChanged(function(user) {
+            var con = firebase.database().ref('customer');
                 var info = con.push();
                 info.set({
                 cname : user.displayName,
                 cemail : user.email
                 });
-             }
+            window.location.href="./profile.html";
+        });
+        }   
+    
 
-            } else {
-            // No user is signed in.
-            }
-            })
-        }
-        
   </script>
 
 

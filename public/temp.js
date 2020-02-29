@@ -12,12 +12,11 @@ document.write(`<div class="sidebar" data-color="rose" data-background-color="bl
 <div class="sidebar-wrapper">
   <div class="user">
     <div class="photo">
-      <img src="../assets/img/faces/avatar.jpg" />
+      <img id="avatar" src="../assets/img/faces/avatar.jpg" />
     </div>
     <div class="user-info">
       <a data-toggle="collapse" href="#collapseExample" class="username">
-        <span>
-          Tania Andrew
+        <span id="putmyname">
           <b class="caret"></b>
         </span>
       </a>
@@ -127,6 +126,14 @@ document.write(`<div class="sidebar" data-color="rose" data-background-color="bl
     </div>
   </div>
 </nav>`);
+document.getElementById("putmyname").innerHTML = "Loading Name...";
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {              
+      document.getElementById("putmyname").innerHTML = user.displayName;
+  }
+  else {}
+});
 
 
 
