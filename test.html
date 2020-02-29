@@ -9,11 +9,12 @@
     <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-
+        
 
     </head>
 
     <body>
+
         <form id="form">
             <input type="text" id="username"name="username"/>
             <input type="password" id ="pass" name="pass"/>
@@ -22,7 +23,19 @@
         <div id="load"></div>
     </body>
     <script src="js/firebase.js"></script>
-    <script>       
+    <script>     
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+            console.log(user.email);
+        // User is signed in.
+        } else {
+        // No user is signed in.
+        }
+        })
+
+        
+    
+
         document.getElementById("form").addEventListener("submit", function(e){
             e.preventDefault();            
             var name = getId("username");
