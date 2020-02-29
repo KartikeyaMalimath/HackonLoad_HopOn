@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="./assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Material Dashboard 
+    Welcome - Hop-On
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -17,6 +17,19 @@
   <link href="./assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="./assets/demo/demo.css" rel="stylesheet" />
+
+  <!--KM Firebase links-->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <!--KM firebase link end-->
+
+
 </head>
 
 <body class="off-canvas-sidebar">
@@ -50,16 +63,17 @@
             <form class="form" method="" action="">
               <div class="card card-login card-hidden">
                 <div class="card-header card-header-rose text-center">
-                  <h4 class="card-title">Login To HopON</h4>
+                  <h4 class="card-title">Login To HoP-oN</h4>
                   <div class="social-line">
                     <!--removed social media-->
                   </div>
                 </div>
                 <div class="card-body ">
-                  <p class="card-description text-center">Or Be Classical</p>
-                  
-                  
+                  <p class="card-description text-center">Or Be Classical</p>               
                   <!--kartikeya add your gmail and facebook-->
+                    <div id="firebaseui-auth-container"></div>
+                    <div id="loader">Loading...</div>
+                  <!--End KM-->
                 </div>
                 <div class="card-footer justify-content-center">
                   <a href="#pablo" class="btn btn-rose btn-link btn-lg">Lets Go</a>
@@ -92,6 +106,12 @@
       </footer>
     </div>
   </div>
+  <!--KM files include for firebase-->
+  <script src="./js/firebase.js"></script>
+  <script src="./js/login.js"></script>
+  <!--KM firebase include end-->
+
+
   <!--   Core JS Files   -->
   <script src="./assets/js/core/jquery.min.js"></script>
   <script src="./assets/js/core/popper.min.js"></script>

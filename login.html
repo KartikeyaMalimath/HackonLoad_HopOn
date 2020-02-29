@@ -17,6 +17,17 @@
   <link href="./assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="./assets/demo/demo.css" rel="stylesheet" />
+
+  <!-- firebase -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <!-- firebase end -->
 </head>
 
 <body class="off-canvas-sidebar">
@@ -47,7 +58,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
-            <form class="form" method="" action="">
+            <form id="form" class="form">
               <div class="card card-login card-hidden">
                 <div class="card-header card-header-rose text-center">
                   <h4 class="card-title">Login To HopON</h4>
@@ -56,15 +67,15 @@
                   </div>
                 </div>
                 <div class="card-body ">
-                  <p class="card-description text-center">Or Be Classical</p>
                   <span class="bmd-form-group">
+                    <center><p id="load"></p></center>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
                           <i class="material-icons">face</i>
                         </span>
                       </div>
-                      <input type="text" class="form-control" placeholder="User Name...">
+                      <input type="text" id="name" class="form-control" placeholder="User Name..." required>
                     </div>
                   </span>
                   
@@ -75,12 +86,12 @@
                           <i class="material-icons">lock_outline</i>
                         </span>
                       </div>
-                      <input type="password" class="form-control" placeholder="Password...">
+                      <input type="password" id="pass" class="form-control" placeholder="Password..." required>
                     </div>
                   </span>
                 </div>
                 <div class="card-footer justify-content-center">
-                  <a href="#pablo" class="btn btn-rose btn-link btn-lg">Lets Go</a>
+                  <button type="submit" id="submit" class="btn btn-rose btn-link btn-lg">Login</button>
                 </div>
               </div>
             </form>
@@ -110,6 +121,37 @@
       </footer>
     </div>
   </div>
+  <script src="js/firebase.js"></script>
+    <script>       
+        document.getElementById("form").addEventListener("submit", function(e){
+            e.preventDefault();     
+            document.getElementById("load").innerHTML = "Loading.....";       
+            var name = getId("name");
+            var pass = getId("pass");
+            var ref = firebase.database().ref("usermaster").once('value', gotUserData);
+
+            function gotUserData(snapshot){
+            snapshot.forEach(userSnapshot => {                
+              if(userSnapshot.val().username === name && userSnapshot.val().password === pass){
+                var type = userSnapshot.val().type;
+                
+                if(type === "admin") {
+                    window.location.href = "./admin/";
+                } else if(type === "user"){
+                    window.location.href="./user/";
+                } else {
+                    alert ("wrong Username");
+                }
+              }                       
+            })
+            }
+        });
+        // ref.child("usermaster").once('value', gotUserData);
+
+        function getId(id){
+            return document.getElementById(id).value;
+        }
+    </script>
   <!--   Core JS Files   -->
   <script src="./assets/js/core/jquery.min.js"></script>
   <script src="./assets/js/core/popper.min.js"></script>

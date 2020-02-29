@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Material Dashboard PRO by Creative Tim
+    Member Register
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -17,18 +17,85 @@
   <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  <!-- firebase -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  
+<!-- firebase end -->
+
 </head>
 
 <body class="">
   <div class="wrapper ">
-    <script src="../../HackonLoad_HopOn/public/temp.js"></script>
+    <script src="./temp.js"></script>
+    <script>
+      document.getElementById("reg").classList.add("active");
+      document.getElementById("toptext").innerHTML = "Member Register";
+    </script>
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-          test
+            <div class="col-md-12">
+                <div class="card ">
+                  <div class="card-header card-header-rose card-header-text">
+                    <div class="card-text">
+                      <h4 class="card-title">Member Form </h4>
+                    </div>
+                  </div>
+                  <div class="card-body ">
+                    <form class="form-horizontal" id="memberform">
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Username</label>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <input id="name" name="name" type="text" class="form-control" placeholder="username..." required>
+                                    <span class="bmd-help">Enter an unique username.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <label class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                          <div class="form-group">
+                            <input id="pass" type="password" name="pass" class="form-control" placeholder="password..." required>
+                          </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Type</label>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <select id="type" name="type" class="form-control" id="type">
+                                        <option value="user">User</option>
+                                        <option value="admin">Admin</option>                                        
+                                    </select>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer" style="margin-left:50%">
+                            <div class="row">
+                              <div class="col-md-9">
+                                <input id="submit" name="submit" type="submit" class="btn btn-fill btn-rose">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>                   
+                  </div>
+                </div>
+              </div>
         </div>
       </div>
-      <script src="../../HackonLoad_HopOn/public/temp_footer.js"></script>
+      <script src="./temp_footer.js"></script>
     </div>
   </div>
   <div class="fixed-plugin">
@@ -133,6 +200,38 @@
       </ul>
     </div>
   </div>
+  <script src="../js/firebase.js"></script>
+   <!-- firebase -->
+   <script>        
+        var con = firebase.database().ref('usermaster');
+
+        document.getElementById('memberform').addEventListener("submit",(e)=>{
+            e.preventDefault();
+
+            var info = con.push();
+            info.set({
+                username: getId('name'),
+                password:getId("pass"),
+                type: getId("type")
+            });
+            console.log("sent");
+            swal({
+            title: "User Created",
+            text: "Successful!",
+            icon: "warning"
+            })
+            .then((willDelete) => {
+                document.getElementById("memberform").reset();  
+            });
+            });
+
+        function getId(id){
+            return document.getElementById(id).value;
+        }
+    </script>
+        
+
+    
   <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>
