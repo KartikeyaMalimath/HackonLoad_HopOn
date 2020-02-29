@@ -47,7 +47,7 @@ document.write(`<div class="sidebar" data-color="rose" data-background-color="bl
   </div>
   <ul class="nav">
     <li class="nav-item ">
-      <a class="nav-link" href="../examples/about_us.html">
+      <a class="nav-link" href="#">
         <i class="material-icons">description</i>
         <p> About Us </p>
       </a>
