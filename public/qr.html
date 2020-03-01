@@ -18,6 +18,18 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
   <script src="../../HackonLoad_HopOn/public/qrcode.js"></script>
+  <!-- firebase -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <!-- firebase end -->
+  <script src="../js/firebase.js"></script>
+  
 </head>
 
 <body class="">
@@ -27,15 +39,46 @@
     <div class="content">
         <div class="container-fluid">
             <div id="qr_code" align="center"></div>
-            <script type="text/javascript">
-                    var qrcode = new QRCode(document.getElementById("qr_code"), {
-                        text: "1234",
-                        width: 100,
-                        height: 100,
-                        colorDark : "#000000",
-                        colorLight : "#ffffff",
-                        correctLevel : QRCode.CorrectLevel.H
+            <script>
+
+              var qrval = null;
+            firebase.auth().onAuthStateChanged(function(user)
+                    {
+                      if(user)
+                   { 
+                     var ref = firebase.database().ref("customer").once('value', gotUserData);
+        
+                    function gotUserData(snapshot){
+                    snapshot.forEach(userSnapshot => {                
+                      if(userSnapshot.val().cemail === user.email){
+                        
+                        var ref = firebase.database().ref("ticket").once('value', gotData);
+        
+                        function gotData(snap){
+                        snap.forEach(usershot =>
+                         {console.log("ok here")
+                            if(userSnapshot.key === usershot.val().user){
+                              qrval = usershot.key;
+                              var qrcode = new QRCode(document.getElementById("qr_code"), {
+                              text: qrval,
+                              width: 100,
+                              height: 100,
+                              colorDark : "#000000",
+                              colorLight : "#ffffff",
+                              correctLevel : QRCode.CorrectLevel.H
                     });
+                            }
+                        });}             
+                    }                       
+                    });
+                    }}
+                  });
+        
+                    
+        </script>
+            <script type="text/javascript">
+              console.log(qrval)
+                    
             </script>
         </div>
     </div>
@@ -144,6 +187,7 @@
       </ul>
     </div>
   </div>
+  
   <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>

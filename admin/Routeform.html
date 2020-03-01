@@ -18,6 +18,18 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
   <script src="../../HackonLoad_HopOn/public/qrcode.js"></script>
+  <!-- firebase -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  
+<!-- firebase end -->
+
 </head>
 
 <body class="">
@@ -26,27 +38,33 @@
     <!-- End Navbar -->
     <div class="content">
         <div class="container-fluid">
-                <div class="col-md-6">
-                        <div class="card ">
-                          <div class="card-header card-header-rose card-header-icon">
-                            <div class="card-icon">
-                              <i class="material-icons">commute</i>
-                            </div>
-                            <h4 class="card-title">Bus Route</h4>
-                          </div>
-                          <div class="card-body ">
-                            <form method="#" action="#">
-                              <div class="form-group">
-                                <label for="stops" class="bmd-label-floating">Enter all stops</label>
-                                <input type="text" class="form-control" id="stops">
-                              </div>
-                            </form>
-                          </div>
-                          <div class="card-footer ">
-                            <button type="submit" class="btn btn-fill btn-rose">Submit</button>
-                          </div>
-                        </div>
-                      </div>
+            <div class="col-md-6">
+              <div class="card ">
+                <div class="card-header card-header-rose card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">commute</i>
+                  </div>
+                  <h4 class="card-title">Bus Route</h4>
+                </div>
+                <div class="card-body ">
+                  <!-- form -->
+                  <form id="routeform">
+                    <div class="form-group">
+                      <label for="code" class="bmd-label-floating">Enter Route Code</label>
+                      <input type="text" id="code" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="stops" class="bmd-label-floating">Enter all stops</label>
+                      <input type="text" class="form-control" id="stops">
+                    </div>
+                  
+                </div>
+                <div class="card-footer ">
+                  <input type="submit" class="btn btn-fill btn-rose" name="submit"> 
+                </div>
+              </form>
+              </div>
+            </div>
         </div>
     </div>
     <script src="../../HackonLoad_HopOn/public/temp_footer.js"></script>
@@ -154,6 +172,21 @@
       </ul>
     </div>
   </div>
+  <script src="../js/firebase.js"></script>
+  <script>
+    document.getElementById('routeform').addEventListener("submit",(e)=>{
+    e.preventDefault();
+    var con = firebase.database().ref('routes');
+    var info = con.push();
+    info.set({
+        code : document.getElementById("code").value,
+        stops : document.getElementById("stops").value
+      });
+      alert("route created")
+      document.getElementById('routeform').reset();
+    });
+  </script>
+
   <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>

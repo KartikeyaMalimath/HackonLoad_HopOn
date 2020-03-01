@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-      HoP-oN Dashboard
+    User Login
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -17,7 +17,6 @@
   <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
   <!-- firebase -->
   <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -28,82 +27,17 @@
   <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
   <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
   <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-  <script src="../js/firebase.js"></script>
-  <script>
-    var ref = firebase.database().ref("usermaster").once('value', gotroutes);
-    function gotroutes(snapshot){
-    // document.getElementById('addsel').innerHTML = ''
-    snapshot.forEach(userSnapshot => { 
-      if(userSnapshot.val().username ===localStorage.getItem("user"))     
-    { 
-      a = userSnapshot.val().mybus.routes;
-      b = a.split(",")
-      console.log(b);
-      for(var i =0; i< (a.length)-1; i++){
-        console.log(b[i])
-        $("#src").append($('<option>', {
-          value: i+"src",
-          text: b[i]
-        }));
-        $("#dst").append($('<option>', {
-          value: i+"dst",
-          text: b[i]
-        }));
-      }
-      
-        
-      }
-    });
-    }
-  </script>
+  <!-- firebase end -->
 </head>
 
 <body class="">
   <div class="wrapper ">
+    <script src="../js/firebase.js"></script>
     <script src="../../HackonLoad_HopOn/public/temp.js"></script>
       <!-- End Navbar -->
       <div class="content">
-        <div class="container-fluid">
-            <form class="form" method="" action="">
-                <div class="card card-login card-hidden">
-                    <div class="card-header card-header-rose text-center">
-                    <h2 class="card-title">Ticketing System</h2>
-                    </div>
-                    <div class="card-body ">
-                    <!-- source added -->
-                    <div class="col-lg-5 col-md-6 col-sm-3">
-                        <select class="form-control" id="src" data-style="select-with-transition">
-                          <option disabled selected>choose Source</option>                          
-                        </select>
-                      </div>
-                          <!-- end -->
-                          <br>
-                          <!-- destination added -->
-                          <div class="col-lg-5 col-md-6 col-sm-3">
-                            <select class="form-control" id="dst"  data-style="select-with-transition">
-                              <option disabled selected>choose destination</option>
-                              
-                            </select>
-                          </div>
-                          <!-- end -->
-                          <br>
-                          <!--number input added-->
-                          <div class="row">
-                            <label class="col-sm-2 col-form-label">Number Of People</label>
-                            <div class="col-sm-7">
-                              <div class="form-group">
-                                <input class="form-control" type="number" name="number" number="true" required="true" />
-                              </div>
-                            </div>
-                          </div>
-                           <!--end-->
-                    
-                    </div>
-                    <div class="card-footer justify-content-center">
-                    <a href="available.html" class="btn btn-rose btn-link btn-lg">Lets Go !..</a>
-                    </div>
-                </div>
-            </form>
+        <div id="mkprofile" class="container-fluid">
+          
         </div>
       </div>
       <script src="../../HackonLoad_HopOn/public/temp_footer.js"></script>
@@ -211,21 +145,36 @@
       </ul>
     </div>
   </div>
-  <script>
-    var id = null;
-    var routeid = null
-    var ref = firebase.database().ref("usermaster").once('value', gotUserData);
-    function gotUserData(snapshot){
-    snapshot.forEach(userSnapshot => {            
-    if(userSnapshot.val().username ===localStorage.getItem("user")) 
-    {
-        id = userSnapshot.key;
-        routeid = userSnapshot.val().mybus.routes
-        console.log(id)
-        return true;
-    }
-    });
-}
+  
+  <script>      
+            document.getElementById("mkprofile").innerHTML = "Loading...";  
+            firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var ref = firebase.database().ref("usermaster").once('value', gotUserData);
+                function gotUserData(snapshot){
+                document.getElementById("mkprofile").innerHTML = "<button id='profile' onclick='pro()' class='btn btn-success'>Add your bus details</button>";
+                // document.getElementById("mkprofile").innerHTML = "<button id='profile' onclick='alert()' class='btn btn-success'>Complete Profile</button>";
+
+                // document.getElementById("profile").addEventListener("Click", );
+
+                snapshot.forEach(userSnapshot => {                
+                if(userSnapshot.val().mybus != undefined) 
+                {   
+                    window.location.href = "./ticket.html";
+                    return true;
+                }
+                
+                });
+                    
+                }
+            } else {
+            // No user is signed in.
+            }
+            });  
+            
+            function pro(){
+                window.location.href = "./busroute.html";
+            }
   </script>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js"></script>

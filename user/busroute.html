@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    HoP-oN Dashboard
+      HoP-oN Dashboard
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -17,35 +17,93 @@
   <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- firebase -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <script src="../js/firebase.js"></script>
+  <script>
+   var ref = firebase.database().ref("routes").once('value', gotroutes);
+function gotroutes(snapshot){
+// document.getElementById('addsel').innerHTML = ''
+snapshot.forEach(userSnapshot => {      
+console.log(userSnapshot.val().code)
+    $("#routepik").append($('<option>', {
+      value: userSnapshot.key,
+      text: userSnapshot.val().code
+    }));
+});
+}
+
+  </script>
+  
+
+  <!-- firebase end -->
 </head>
 
 <body class="">
   <div class="wrapper ">
-    <script src="./temp.js"></script>
-    <script>
-      document.getElementById("dash").classList.add("active");
-      document.getElementById("toptext").innerHTML = "Dashboard";
-    </script>
+    
+    <script src="../../HackonLoad_HopOn/public/temp.js"></script>
       <!-- End Navbar -->
-    <div class="content">
+      <div class="content">
         <div class="container-fluid">
-            <div class= "row">
-                <div class = "col-sm-6">
-                    <div class="card reg" >
-                        <div class = "scan-col" >
-                            <video id="preview" style="width:100%; height: auto;"></video>
-                            <audio id="myAudio">
-                                <source src="../include/beep-02.wav" type="audio/wav">
-                            </audio>
-                        </div>
-                        <hr>
-                        <h5><center>Scan Ticket QR Code</center></h5>
+            <form class="form" id="busform">
+                <div class="card card-login card-hidden">
+                    <div class="card-header card-header-rose text-center">
+                    <h2 class="card-title">Bus route details</h2>
                     </div>
+                    <div class="card-body ">
+                        <form class="form-horizontal">
+                            <div class="row">
+                    <!-- source added -->
+                                <div class="col-lg-5 col-md-6 col-sm-3" >
+                                    <label class="col-md-3 col-form-label">Route code</label>
+                                    <div id="addsel">
+                                      <select required id="routepik" class="form-control" data-style="select-with-transition" title="Choose route">
+                                        <option disabled selected>Select Route</option>
+                                      </select>  
+                                      <!-- <script src="./routesfetch.js" async></script> -->
+                                    </div>                                    
+                                </div>
+                            </div>
+                          <!-- end -->
+                          
+                            <div class="row">
+                          <!-- stop with time added -->
+                                <div id="stopname">
+                                <label class="col-md-3 col-form-label">Bus no</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input id="busno" type="text" class="form-control" required>
+                                    </div>
+                                </div></div>
+                          <!-- end -->   
+                            </div>
+                            <div id="stopname">
+                                    <!-- stop with time added -->
+                                    
+                                
+                                    <!-- end -->
+                            </div>
+                            <div class="card-footer justify-content-center">
+                              <button type="submit" class="btn btn-rose btn-link btn-lg">Start Bus</button>
+                              </div>
+                        </form>   
+                    </div>
+                    
                 </div>
-            </div>
+            </form>
         </div>
-    </div>
-    <script src="./temp_footer.js"></script>
+      </div>
+      <script src="../../HackonLoad_HopOn/public/temp_footer.js"></script>
     </div>
   </div>
   <div class="fixed-plugin">
@@ -150,6 +208,81 @@
       </ul>
     </div>
   </div>
+  <script>
+    var b = null;
+    var v = null;
+    document.getElementById("routepik").addEventListener("change", function(){
+      console.log("changing")
+      v = document.getElementById("routepik").value;
+      var ref = firebase.database().ref("routes").once('value', routed);
+      function routed(snapshot) {
+        snapshot.forEach(userSnapshot => {          
+          if(userSnapshot.key == document.getElementById("routepik").value){
+            a = userSnapshot.val().stops;
+            b = a.split(",");
+            console.log(b);
+            for (var i=0; i<b.length; i++) {
+              console.log(b[i]);
+              $('#stopname').append(`
+              <div class="row">
+              <div class="col-md-5">
+                <input type="text" id="`+b[i]+`" value="`+b[i]+`" class="col-md-3 col-form-label" disabled>
+              </div>                                
+              <div class="col-md-7">
+              <div class="form-group">
+                  <div class='input-group'>
+                      <input type='text' id="`+i+`" class="form-control" required/>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-time"></span>
+                      </span>
+                  </div>
+              </div></div> </div>`) ;
+            }
+          }
+          
+        })
+      }
+    })
+  </script>
+  
+  <script>
+    var id = null;
+    var ref = firebase.database().ref("usermaster").once('value', gotUserData);
+    function gotUserData(snapshot){
+    snapshot.forEach(userSnapshot => {            
+    if(userSnapshot.val().username ===localStorage.getItem("user")) 
+    {
+        id = userSnapshot.key;
+        console.log(id)
+        return true;
+    }
+    });
+}
+//update details
+document.getElementById("busform").addEventListener("submit", (e)=>
+  {
+    e.preventDefault();
+    var c="";
+    for(var j=0; j<b.length; j++){
+      c += document.getElementById(b[j]).value+"|"+document.getElementById(j).value+","
+    }
+    let userref = firebase.database().ref('usermaster');
+    userref.child(id).update({
+        mybus :{
+          rcode : v,
+          busno : document.getElementById("busno").value,
+          routes : c
+        }        
+    })
+    alert("Bus Updated");
+    window.location.href = "./busroute";
+  });
+
+
+  </script>
+  
+
+
   <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>
@@ -193,7 +326,6 @@
   <script src="../assets/js/material-dashboard.js?v=2.1.0" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
-  <script type="text/javascript" src="../js/instascan.min.js" ></script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -370,36 +502,7 @@
       md.initFullCalendar();
     });
   </script>
-  <script>
-
-        let scanner = new Instascan.Scanner(
-            {
-                video: document.getElementById('preview'), mirror:false
-            }
-        );
-        scanner.addListener('scan', function(content) {
-            top.window.location = "../function/amount.php?id="+content;
-        });
-        Instascan.Camera.getCameras().then(cameras => 
-        {
-            if(cameras.length == 1){
-                scanner.start(cameras[0]);
-            }
-            else if(cameras.length == 2) {
-                scanner.start(cameras[1]);
-            }
-            else {
-                console.error("Error scanning");
-            }
-        });
-        
-        var aud = document.getElementById("myAudio"); 
-        
-        function playAudio() { 
-          audio.play(); 
-        }
-        
-    </script>
+  
 </body>
 
 </html>

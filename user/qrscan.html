@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-      HoP-oN Dashboard
+    HoP-oN Dashboard
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -21,71 +21,31 @@
 
 <body class="">
   <div class="wrapper ">
-    <script src="../../HackonLoad_HopOn/public/temp.js"></script>
+    <script src="./temp.js"></script>
+    <script>
+      document.getElementById("dash").classList.add("active");
+      document.getElementById("toptext").innerHTML = "Dashboard";
+    </script>
       <!-- End Navbar -->
-      <div class="content">
+    <div class="content">
         <div class="container-fluid">
-            <form class="form" method="" action="">
-                <div class="card card-login card-hidden">
-                    <div class="card-header card-header-rose text-center">
-                    <h2 class="card-title">Bus route details</h2>
-                    </div>
-                    <div class="card-body ">
-                        <form class="form-horizontal">
-                            <div class="row">
-                    <!-- source added -->
-                                <div class="col-lg-5 col-md-6 col-sm-3" align="center">
-                                    <label class="col-md-3 col-form-label">Route code</label>
-                                    <select class="selectpicker" data-style="select-with-transition" title="Choose route" data-size="7">
-
-                                    </select>
-                                </div>
-                            </div>
-                          <!-- end -->
-                            
-                            <div class="row">
-                          <!-- stop with time added -->
-                                <label class="col-md-3 col-form-label">Bus no</label>
-                                <div class="col-md-9">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                          <!-- end -->   
-                            </div>
-                            <div class="row">
-                                    <!-- stop with time added -->
-                                <label class="col-md-3 col-form-label">Stops</label>
-                                <div class="col-md-9">
-                                    <div class="form-group">
-                                        <div class='input-group date' id='datetimepicker3'>
-                                            <input type='time' class="form-control" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-time"></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <script type="text/javascript">
-                                    $(function () {
-                                        $('#datetimepicker3').datetimepicker({
-                                            format: 'LT'
-                                        });
-                                    });
-                                </script>
-                                    <!-- end -->
-                            </div>
-
-                        </form>   
-                    </div>
-                    <div class="card-footer justify-content-center">
-                    <a href="#" class="btn btn-rose btn-link btn-lg">Lets Go !..</a>
+            <div class= "row">
+                <div class = "col-sm-6">
+                    <div class="card reg" >
+                        <div class = "scan-col" >
+                            <video id="preview" style="width:100%; height: auto;"></video>
+                            <audio id="myAudio">
+                                <source src="../include/beep-02.wav" type="audio/wav">
+                            </audio>
+                        </div>
+                        <hr>
+                        <h5><center>Scan Ticket QR Code</center></h5>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-      </div>
-      <script src="../../HackonLoad_HopOn/public/temp_footer.js"></script>
+    </div>
+    <script src="./temp_footer.js"></script>
     </div>
   </div>
   <div class="fixed-plugin">
@@ -233,6 +193,7 @@
   <script src="../assets/js/material-dashboard.js?v=2.1.0" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
+  <script type="text/javascript" src="../js/instascan.min.js" ></script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -409,7 +370,36 @@
       md.initFullCalendar();
     });
   </script>
-  
+  <script>
+
+        let scanner = new Instascan.Scanner(
+            {
+                video: document.getElementById('preview'), mirror:false
+            }
+        );
+        scanner.addListener('scan', function(content) {
+            alert("tiket validated: "+content);
+        });
+        Instascan.Camera.getCameras().then(cameras => 
+        {
+            if(cameras.length == 1){
+                scanner.start(cameras[0]);
+            }
+            else if(cameras.length == 2) {
+                scanner.start(cameras[1]);
+            }
+            else {
+                console.error("Error scanning");
+            }
+        });
+        
+        var aud = document.getElementById("myAudio"); 
+        
+        function playAudio() { 
+          audio.play(); 
+        }
+        
+    </script>
 </body>
 
 </html>

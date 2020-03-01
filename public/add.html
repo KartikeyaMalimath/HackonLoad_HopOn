@@ -1,0 +1,46 @@
+<!-- firebase -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <script src="../js/firebase.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+<script>
+    
+
+    window.addEventListener("load", ()=>{
+        firebase.auth().onAuthStateChanged(function(user) {
+            if(user){
+                var ref = firebase.database().ref("customer").once('value', gotUserData);
+                function gotUserData(snapshot){
+                snapshot.forEach(userSnapshot => {   
+                    id = userSnapshot.key;
+                    if(userSnapshot.val().cemail === user.email){
+                        console.log('test')
+                        src = userSnapshot.val().source;
+                        dst = userSnapshot.val().dest;
+                        var con = firebase.database().ref('ticket');
+                        var info = con.push();
+                        info.set({
+                            source: src,
+                            dest:dst ,
+                            valid: "1",
+                            amount : "20",
+                            user : id
+                        });
+                        window.location.href="./qr.html";
+                    }
+                });
+            }
+            
+            } else {
+
+            }
+        });
+    });
+</script>
+
+Loading....

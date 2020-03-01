@@ -207,41 +207,13 @@
                 {
                     document.getElementById("name").value=userSnapshot.val().cname;
                     document.getElementById("email").value=userSnapshot.val().cemail;
-                    if(userSnapshot.val().female === "f"){
-                        document.getElementById("female").checked = true;
-                    } 
-                    if(userSnapshot.val().senior === "s") {
-                        document.getElementById("senior").checked = true;
-                    }
                     return true;
                 }
                 });
               }
 
-              document.getElementById("profileform").addEventListener("submit", (e)=>
-              {
-                  e.preventDefault();
-                if(document.getElementById("female").checked){
-                    fval = document.getElementById("female").value
-                } else {
-                    fval = null;
-                } if(document.getElementById("senior").checked) {
-                    sval = document.getElementById("senior").value
-                } else {
-                    sval = null;
-                }
-                let userref = firebase.database().ref('customer');
-                userref.child(id).update({
-                    cname : document.getElementById("name").value,
-                    female : fval,
-                    senior : sval
-                })
-                alert("user Updated");
-                window.location.href = "./profile.html";
-              });
-
             }
-            else {}
+            else {//handle session}
     });
   </script>
   <!--   Core JS Files   -->

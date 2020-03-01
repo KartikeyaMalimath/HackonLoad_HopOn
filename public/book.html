@@ -17,6 +17,25 @@
     <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- firebase -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <script src="../js/firebase.js"></script>
+
+    <script>
+        var randomnumber = Math.floor(Math.random() * (54 - 0 + 1)) + 0;
+        console.log(randomnumber)
+        
+    </script>
+
     </head>
 
     <body class="">
@@ -29,10 +48,21 @@
                         <div class="card ">
                             <div class="card-body text-center">
                                 <h4 class="card-category">Your seat is booked!!!</h4>
-                                <h3 class="card-title">Seat number- 12 </h3>
+                                <h3 class="card-title">Seat number</h3>
+                                <h2><div id="num"></div></h2>                                
                                 <p class="card-description">
-                                    Amount to be paid is 20/-
+                                    Amount to be paid is <b><h3><div id="amt"></div></h3></b>
                                 </p>
+                                <script>
+                                    if(randomnumber == 0){
+                                        document.getElementById("num").innerHTML = "standing"; 
+                                        document.getElementById("amt").innerHTML = "18₹";
+                                    } else {
+                                        document.getElementById("num").innerHTML = randomnumber; 
+                                        document.getElementById("amt").innerHTML = "20₹";
+                                    }
+                                       
+                                </script>
                                 
                                 <button class="btn btn-rose btn-fill" id="b1">Pay!</button>
                             </div>
@@ -368,14 +398,41 @@
         </script>
         <script>
             document.getElementById('b1').onclick = function(){
-                swal({
-                    title: "Congratulations!",
-                    text: "Payment done!",
-                    icon: "success",
-                }).then(() => {
-                    window.location.href="../../HackonLoad_HopOn/public/qr.html";
+                swal("Select Payment Method", {
+                buttons: {
+                    cancel: "cancel",
+                    Card: {
+                    text: "Card",
+                    value: "card",
+                    },
+                    UPI: {
+                        text :"UPI",
+                        value : "upi"
+                    },
+                },  
+                })
+                .then((value) => {
+                switch (value) {
                 
-            });
+                    case "card":
+                    swal("Payment Successfull","Paid through Card", "success").then((value)=>{
+                        window.location.href = "./add.html"
+                    }
+                    );
+                    
+                    break;
+                
+                    case "upi":
+                    swal("Transaction Successfull", "Paid Through UPI", "success").then((value)=>{
+                        window.location.href = "./add.html"
+                    });
+                    break;
+                
+                    default:
+                    swal("Transaction Canceled","","warning");
+                } 
+                
+                });
             };
             
         </script>

@@ -12,12 +12,11 @@ document.write(`<div class="sidebar" data-color="rose" data-background-color="bl
 <div class="sidebar-wrapper">
   <div class="user">
     <div class="photo">
-      <img src="../assets/img/faces/avatar.jpg" />
+      <img id="avatar" src="../assets/img/faces/avatar.jpg" />
     </div>
     <div class="user-info">
       <a data-toggle="collapse" href="#collapseExample" class="username">
         <span id="putmyname">
-          Admin Login
           <b class="caret"></b>
         </span>
       </a>
@@ -46,26 +45,6 @@ document.write(`<div class="sidebar" data-color="rose" data-background-color="bl
     </div>
   </div>
   <ul class="nav">
-    <li class="nav-item" id="dash">
-      <a class="nav-link" href="./">
-        <i class="material-icons">dashboard</i>
-        <p> Dashboard </p>
-      </a>
-    </li> 
-    <li class="nav-item " id="reg">
-      <a class="nav-link" href="./register.html">
-        <i class="material-icons">content_paste</i>
-        <p> Forms
-        </p>
-      </a>
-    </li>
-    <li class="nav-item " id="rout">
-      <a class="nav-link" href="./Routeform.html">
-        <i class="material-icons">commute</i>
-        <p> Routes
-        </p>
-      </a>
-    </li>
     <li class="nav-item ">
       <a class="nav-link" href="#">
         <i class="material-icons">description</i>
@@ -86,7 +65,7 @@ document.write(`<div class="sidebar" data-color="rose" data-background-color="bl
           <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
         </button>
       </div>
-      <a class="navbar-brand" href="#pablo" id="toptext"></a>
+      <a class="navbar-brand" href="#pablo">Source - Destination</a>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
       <span class="sr-only">Toggle navigation</span>
@@ -106,7 +85,7 @@ document.write(`<div class="sidebar" data-color="rose" data-background-color="bl
       </form>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="./">
+          <a class="nav-link" href="#pablo">
             <i class="material-icons">dashboard</i>
             <p class="d-lg-none d-md-block">
               Stats
@@ -140,13 +119,21 @@ document.write(`<div class="sidebar" data-color="rose" data-background-color="bl
             <a class="dropdown-item" href="#">Profile</a>
             <a class="dropdown-item" href="#">Settings</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="../js/logout.html">Log out</a>
+            <a class="dropdown-item" href="#">Log out</a>
           </div>
         </li>
       </ul>
     </div>
   </div>
 </nav>`);
+document.getElementById("putmyname").innerHTML = "Loading Name...";
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {              
+      document.getElementById("putmyname").innerHTML = user.displayName;
+  }
+  else {}
+});
 
 
 

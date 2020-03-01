@@ -121,6 +121,21 @@
       </footer>
     </div>
   </div>
+  <!-- cookies -->
+  <script>
+    supports_html5_storage();
+    function supports_html5_storage() {
+      try {
+          // var foo = localStorage.getItem("bar")
+          console.log("localStorage works")
+      } catch (e) {
+        console.log(e)
+        return false;
+      }
+    }
+    
+  </script>
+  <!-- firebase -->
   <script src="js/firebase.js"></script>
     <script>       
         document.getElementById("form").addEventListener("submit", function(e){
@@ -133,6 +148,7 @@
             function gotUserData(snapshot){
             snapshot.forEach(userSnapshot => {                
               if(userSnapshot.val().username === name && userSnapshot.val().password === pass){
+                localStorage.setItem("user",userSnapshot.val().username)
                 var type = userSnapshot.val().type;
                 
                 if(type === "admin") {

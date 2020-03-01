@@ -17,6 +17,80 @@
   <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <!-- firebase -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <script src="../js/firebase.js"></script>
+
+
+  <script>
+    
+    firebase.auth().onAuthStateChanged(function(user) {
+      if(user)
+      var src = null;
+    var dst = null;
+    var ref = firebase.database().ref("customer").once('value', gotroutes);
+    function gotroutes(snapshot){
+    // document.getElementById('addsel').innerHTML = ''
+    snapshot.forEach(userSnapshot => { 
+    if(userSnapshot.val().cemail === user.email){
+        uid = userSnapshot.key;
+        src = userSnapshot.val().source;
+        dst = userSnapshot.val().dest;
+        console.log(src)
+    }
+});}
+//busses
+var ref = firebase.database().ref("usermaster").once('value', gotroutes);
+function gotroutes(snapshot){
+// document.getElementById('addsel').innerHTML = ''
+snapshot.forEach(userSnapshot => { 
+    userSnapshot.forEach(snapshot2 => {
+        console.log(snapshot2.val().busno)
+        s = snapshot2.val().routes;
+        if(s.includes(src) == true && s.includes(dst) == true){
+          console.log(userSnapshot.val().username)
+        }
+    })
+});}
+
+
+});
+</script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+  ['criteria', 'numbers'],
+  ['Sit avail', 10],
+  ['Stand avail', 18],
+  ['ladies avail', 4],
+  ['senior citizen avail', 2],
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Bus Status', 'width':250, 'height':150};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(data, options);
+}
+</script>
 </head>
 
 <body class="">
@@ -32,16 +106,17 @@
             <div class="col-lg-6 cards">
                 <div class="card card-pricing card-raised">
                     <div class="card-body">
-                        <h6 class="card-category">Bus Type- AC</h6>
+                        <h6 class="card-category">Bus Type- Non-A/C</h6>
                         <div class="card-icon icon-rose">
-                            <i class="material-icons">commute</i>
+                          <div id="piechart"></div>
                         </div>
-                        <h3 class="card-title">Bus Number- 119</h3>
+                        <h3 class="card-title">Bus - 306</h3>
+                        <h6>Probabilty of seat availabilty : 28%</h6>
                         <p class="card-description">
                             Time- 8:30 am
-                            Status- Arrived
+                            Status- waiting
                         </p>
-                        <a href="book.html" class="btn btn-rose btn-round">Book</a>
+                        <a href="book.html" class="btn btn-rose btn-round">Book - 17₹</a>
                     </div>
                 </div>
             </div>
